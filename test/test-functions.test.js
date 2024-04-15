@@ -12,4 +12,16 @@ describe("test-coverage test suite", () => {
     expect(result.value).toBe(120);
     expect(result.message).toBe("Warning: result is greater then 100");
   });
+
+  it("calculateValue test 3", () => {
+    const result = calculateValue(100, 20, true);
+    expect(result.value).toBe(130);
+    expect(result.message).toBe("Warning: result is greater then 100");
+  });
+
+  it("calculateValue test 4", () => {
+    const result = calculateValue(100, 20, false, false);
+    expect(result.value).toBe(120);
+    expect(result.message).toBe("result is greater then 100");
+  });
 });
