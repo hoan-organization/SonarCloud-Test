@@ -7,6 +7,12 @@ describe("test-coverage test suite", () => {
     expect(result.message).toBe(null);
   });
 
+  it("tests something 3", () => {
+    const result = calculateValue(10, 20);
+    expect(result.value).toBe(30);
+    expect(result.message).toBe(null);
+  });
+
   it("calculateValue test 2", () => {
     const result = calculateValue(100, 20);
     expect(result.value).toBe(120);
