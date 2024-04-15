@@ -21,5 +21,5 @@ jobs:
         uses: anuraag016/Jest-Coverage-Diff@master
         with:
           fullCoverageDiff: false
-          runCommand: "npx jest --coverage"
+          runCommand: "yarn test-coverage"
           delta: 0.5
