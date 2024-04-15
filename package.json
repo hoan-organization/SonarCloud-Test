@@ -1,0 +1,11 @@
+{
+  "name": "sonar-cloud-test",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest",
+    "test-coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}
