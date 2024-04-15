@@ -16,44 +16,10 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Test and coverage
-        run: yarn jest --coverage
-
-      - name: Upload code coverage for ref branch
-        uses: actions/upload-artifact@v3
+      - name: TestCoverage
+        id: testCoverage
+        uses: anuraag016/Jest-Coverage-Diff@master
         with:
-          name: ref-lcov.info
-          path: ./coverage/lcov.info
-
-  checks:
-    runs-on: ubuntu-latest
-    needs: base_branch_cov
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js v20.9.0
-        uses: actions/setup-node@v3
-        with:
-          node-version: v20.9.0
-
-      - name: Download code coverage report from base branch
-        uses: actions/download-artifact@v3
-        with:
-          name: ref-lcov.info
-
-      - name: Install dependencies
-        run: yarn
-
-      - name: Run test coverage
-        run: yarn jest --coverage
-
-      #  Compares two code coverage files and generates report as a comment
-      - name: Generate Code Coverage report
-        id: code-coverage
-        uses: barecheck/code-coverage-action@v1
-        with:
-          barecheck-github-app-token: ${{ secrets.BARECHECK_GITHUB_APP_TOKEN }}
-          lcov-file: "./coverage/lcov.info"
-          base-lcov-file: "./lcov.info"
-          minimum-ratio: 0 # Fails Github action once code coverage is decreasing
-          send-summary-comment: true
-          show-annotations: "warning" # Possible options warning|error
+          fullCoverageDiff: false // defaults to false, if made true whole coverage report is commented with the diff
+          runCommand: "npx jest --coverageReporters='json-summary'"
+          delta: 0.5
