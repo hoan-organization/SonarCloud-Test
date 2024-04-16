@@ -9,7 +9,6 @@ module.exports.calculateValue = (
     message: null,
   };
   if (result.value > 100) {
-    console.log("hello");
     let messageParts = [];
     if (addWarning) messageParts.push("Warning:");
     messageParts.push("result is greater then 100");
