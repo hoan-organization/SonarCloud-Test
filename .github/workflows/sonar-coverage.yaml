@@ -3,9 +3,7 @@ on:
   push:
     branches:
       - main
-      - test-sonar-cloud-branch
-  pull_request:
-    types: [opened, synchronize, reopened]
+      - develop
 jobs:
   sonarcloud:
     name: SonarCloud
