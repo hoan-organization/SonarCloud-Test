@@ -20,7 +20,7 @@ jobs:
           # For posting a rich message using Block Kit
           payload: |
             {
-                "text": " ${{github.event.head_commit.url}} has been released, which includes the following changes: \n ${{github.event.head_commit.message}}",
+                "text": " ${{github.event.head_commit.id}} has been released, which includes the following changes: \n ${{github.event.head_commit.message}}",
                 "blocks": [
                     {
                         "type": "section",
