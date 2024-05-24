@@ -1,0 +1,40 @@
+name: Slack Incoming Webhooks
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out theis repo
+      - uses: actions/checkout@v4
+
+      - name: Print github context
+        run: echo "${{ toJson(github) }}"
+
+      - name: Print step context
+        run: echo "${{ toJson(steps) }}"
+      # Start a Slack workflow using a webhook trigger
+      # https://github.com/slackapi/slack-github-action
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+                "text": "A new release has been published: *${{ github.event.release.tag_name }}* by @${{ github.event.release.author.login }}\n\n*What's Changed:*\n${{ github.event.release.body }}",
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "A new release has been published: *${{ github.event.release.tag_name }}* by @${{ github.event.release.author.login }}\n\n*What's Changed:*\n${{ github.event.release.body }}"
+                        }
+                    }
+                ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
