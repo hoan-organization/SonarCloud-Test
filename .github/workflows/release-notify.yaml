@@ -19,13 +19,13 @@ jobs:
           # For posting a rich message using Block Kit
           payload: |
             {
-                "text": "A new release has been published: \n ${{ github.event.release.body }}",
+                "text": "A new release has been published, which includes the following changes: \n ${{ github.event.release.body }}",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "A new release has been published: \n ${{ github.event.release.body }}"
+                            "text": "A new release has been published, which includes the following changes: \n ${{ github.event.release.body }}"
                         }
                     }
                 ]
