@@ -1,7 +1,8 @@
 name: Slack Incoming Webhooks
 on:
-  release:
-    types: [published]
+  # release:
+  #   types: [published]
+  push:
 
 jobs:
   build:
