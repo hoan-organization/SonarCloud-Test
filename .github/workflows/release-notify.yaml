@@ -10,11 +10,6 @@ jobs:
       # Check out theis repo
       - uses: actions/checkout@v4
 
-      - name: Print github context
-        run: echo "${{ toJson(github) }}"
-
-      - name: Print step context
-        run: echo "${{ toJson(steps) }}"
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
       - name: Send custom JSON data to Slack workflow
