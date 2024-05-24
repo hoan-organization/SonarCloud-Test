@@ -1,6 +1,7 @@
 name: Slack Incoming Webhooks
 on:
-  push:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -23,13 +24,13 @@ jobs:
           # For posting a rich message using Block Kit
           payload: |
             {
-                "text": " ${{github.event.head_commit.id}} has been released, which includes the following changes: \n ${{github.event.head_commit.message}}",
+                "text": "A new release has been published: *${{ github.event.release.tag_name }}* by @${{ github.event.release.author.login }}\n\n*What's Changed:*\n${{ github.event.release.body }}",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "${{github.event.head_commit.id}} has been released, which includes the following changes: \n ${{github.event.head_commit.message}}"
+                            "text": "A new release has been published: *${{ github.event.release.tag_name }}* by @${{ github.event.release.author.login }}\n\n*What's Changed:*\n${{ github.event.release.body }}"
                         }
                     }
                 ]
