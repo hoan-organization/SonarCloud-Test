@@ -17,7 +17,7 @@ jobs:
         run: |
           # Remove "## What's Changed" from the release body
           cleaned_body=$(echo "${{ github.event.release.body }}" | sed 's/## What'"'"'s Changed//g')
-          echo "CLEANED_BODY=$(echo "$cleaned_body")" >> $GITHUB_ENV
+          echo "CLEANED_BODY=$(echo \"$cleaned_body\")" >> $GITHUB_ENV
 
       - name: Send custom JSON data to Slack
         id: slack
