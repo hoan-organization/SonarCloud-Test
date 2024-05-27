@@ -15,7 +15,9 @@ jobs:
       - name: Prepare release notes
         id: prepare_release_notes
         run: |
-          echo "RELEASE_BODY=$(echo "${{ github.event.release.body }}" | jq -sRr @json)" >> $GITHUB_ENV
+          # Remove "## What's Changed" from the release body
+          cleaned_body=$(echo "${{ github.event.release.body }}" | sed 's/## What's Changed//g')
+          echo "CLEANED_BODY=$(echo "$cleaned_body" | jq -sRr @json)" >> $GITHUB_ENV
 
       - name: Send custom JSON data to Slack
         id: slack
@@ -23,13 +25,13 @@ jobs:
         with:
           payload: >
             {
-                "text": "A new release has been published: \n ${{ env.RELEASE_BODY }}",
+                "text": "A new release has been published: \n ${{ env.CLEANED_BODY }}",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "A new release has been published: \n ${{ env.RELEASE_BODY }}"
+                            "text": "A new release has been published: \n ${{ env.CLEANED_BODY }}"
                         }
                     }
                 ]
