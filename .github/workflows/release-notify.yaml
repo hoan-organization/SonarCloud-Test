@@ -1,8 +1,7 @@
 name: Slack Incoming Webhooks
 on:
-  # release:
-  #   types: [published]
-  push:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -19,7 +18,7 @@ jobs:
       - name: Prepare release notes
         id: prepare_release_notes
         run: |
-          echo %{{ github.event.release.body }}
+          echo ${{ github.event.release.body }}
           cleaned_body=$(echo ${{ github.event.release.body }} | sed 's/## What'"'"'s Changed//g')
           echo "CLEANED_BODY=$(echo \"$cleaned_body\")" >> $GITHUB_ENV
 
