@@ -25,7 +25,7 @@ jobs:
         with:
           payload: >
             {
-                "text": "A new release has been published: \n ${{ env.CLEANED_BODY }}",
+                "text": "A new release has been published:",
                 "blocks": [
                     {
                         "type": "section",
