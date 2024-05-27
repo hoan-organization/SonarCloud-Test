@@ -20,7 +20,8 @@ jobs:
         run: |
           RELEASE_BODY="${{ github.event.release.body }}"
           RESULT=$(echo "$RELEASE_BODY" | sed 's/## What'"'"'s Changed//g' | grep -o -P 'DEV-\d{4,5}:.*' | sed 's/^/* /' | tr -d '\n')
-          echo "RESULT=$RESULT" >> $GITHUB_ENV
+          JSON_PAYLOAD=$(jq -n --arg result "$RESULT" '{"text": "A new release has been published", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "A new release has been published: \n \($result)"}}]}')
+          echo "JSON_PAYLOAD=$JSON_PAYLOAD" >> $GITHUB_ENV
       - name: Send custom JSON data to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
@@ -33,7 +34,7 @@ jobs:
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "A new release has been published: \n ${{ env.RESULT }}"
+                            "text": "${{ env.JSON_PAYLOAD }}"
                         }
                     }
                 ]
