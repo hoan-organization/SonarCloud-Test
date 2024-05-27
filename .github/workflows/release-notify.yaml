@@ -19,7 +19,7 @@ jobs:
         id: prepare_release_notes
         run: |
           RELEASE_BODY="${{ github.event.release.body }}"
-          RESULT=$(echo "$RELEASE_BODY" | grep 'DEV-' | sed 's/^ *\* //')
+          RESULT=$(echo "$RELEASE_BODY" | grep 'DEV-' | sed 's/^ *\* //' | sed '/^$/d')
           CLEANED_BODY=$(echo "$RESULT" | sed 's/$/\\n /' | tr -d '\n')
           echo "CLEANED_BODY=$CLEANED_BODY" >> $GITHUB_ENV
       - name: Send custom JSON data to Slack
