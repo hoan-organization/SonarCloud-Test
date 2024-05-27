@@ -20,8 +20,8 @@ jobs:
         run: |
           RELEASE_BODY="${{ github.event.release.body }}"
           RESULT=$(echo "$RELEASE_BODY" | grep 'DEV-' | sed 's/^ *\* //')
-          echo "CLEANED_BODY=$(echo "$RESULT")" >> $GITHUB_ENV
-
+          CLEANED_BODY=$(echo "$RESULT" | sed ':a;N;$!ba;s/\n/\\n/g')
+          echo "CLEANED_BODY=$CLEANED_BODY" >> $GITHUB_ENV
       - name: Send custom JSON data to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
