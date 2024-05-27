@@ -12,20 +12,24 @@ jobs:
 
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
-      - name: Send custom JSON data to Slack workflow
+      - name: Prepare release notes
+        id: prepare_release_notes
+        run: |
+          echo "RELEASE_BODY=$(echo "${{ github.event.release.body }}" | jq -sRr @json)" >> $GITHUB_ENV
+
+      - name: Send custom JSON data to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          # For posting a rich message using Block Kit
           payload: >
             {
-                "text": "A new release has been published: \n ${{ toJson(github.event.release.body) }}",
+                "text": "A new release has been published: \n ${{ env.RELEASE_BODY }}",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "A new release has been published: \n ${{ toJson(github.event.release.body) }}"
+                            "text": "A new release has been published: \n ${{ env.RELEASE_BODY }}"
                         }
                     }
                 ]
