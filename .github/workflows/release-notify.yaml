@@ -18,9 +18,9 @@ jobs:
       - name: Prepare release notes
         id: prepare_release_notes
         run: |
-          echo ${{ github.event.release.body }}
-          cleaned_body=$(echo "${{ github.event.release.body }}" | sed 's/## What'"'"'s Changed//g')
-          echo "CLEANED_BODY=$(echo \"$cleaned_body\")" >> $GITHUB_ENV
+          RELEASE_BODY="${{ github.event.release.body }}"
+          RESULT=$(echo "$RELEASE_BODY" | | grep 'DEV-' | sed 's/^ *\* //')
+          echo "CLEANED_BODY=$(echo "$RESULT")" >> $GITHUB_ENV
 
       - name: Send custom JSON data to Slack
         id: slack
