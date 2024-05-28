@@ -7,37 +7,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Check out theis repo
       - uses: actions/checkout@v4
 
-      - name: list files
-        run: echo ${{ github.event.release }}
-
-      # Start a Slack workflow using a webhook trigger
-      # https://github.com/slackapi/slack-github-action
       - name: Prepare release notes
         id: prepare_release_notes
         run: |
-          RELEASE_BODY="${{ github.event.release.body }}"
-          RESULT=$(echo "$RELEASE_BODY" | grep -oP 'DEV-\d{4,5}:.*' | sed ':a;N;$!ba;s/\n/ \\n /g')
-          echo "RESULT=$RESULT" >> $GITHUB_ENV
+          RELEASE_BODY=$(echo "${{ github.event.release.body }}" | sed 's/"/\\"/g')
+          echo "::set-output name=release_body::${RELEASE_BODY}"
+        shell: bash
+
       - name: Send custom JSON data to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          payload: >
+          payload: |
             {
-                "text": "A new release has been published",
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "A new release has been published: \n ${{ env.RESULT }}"
-                        }
-                    }
-                ]
+              "text": "A new release has been published",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "A new release has been published:\n${{ steps.prepare_release_notes.outputs.release_body }}"
+                  }
+                }
+              ]
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
