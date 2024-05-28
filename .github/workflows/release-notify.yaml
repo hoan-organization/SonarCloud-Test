@@ -28,7 +28,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "A new release has been published:\n${{ steps.prepare_release_notes.outputs.release_body }}"
+                    "text": `A new release has been published:\n${{ steps.prepare_release_notes.outputs.release_body }}`
                   }
                 }
               ]
