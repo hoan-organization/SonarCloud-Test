@@ -4,28 +4,40 @@ on:
     types: [published]
 
 jobs:
-  notify_slack:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out the repository
-      uses: actions/checkout@v4
+      # Check out theis repo
+      - uses: actions/checkout@v4
 
-    - name: Install jq
-      run: sudo apt-get install jq
+      - name: list files
+        run: echo ${{ github.event.release }}
 
-    - name: Prepare release notes
-      id: prepare_release_notes
-      run: |
-        RELEASE_BODY="${{ github.event.release.body }}"
-        RESULT=$(echo "$RELEASE_BODY" | grep -oP 'DEV-\d{4,5}:.*' | sed ':a;N;$!ba;s/\n/ \\n /g')
-        RESULT=$(jq -Rs --arg result "$RESULT" '{"text": "A new release has been published", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "A new release has been published: \n \($result)"}}]}')
-        echo "RESULT=$RESULT" >> $GITHUB_ENV
-
-    - name: Send notification to Slack
-      uses: slackapi/slack-github-action@v1.26.0
-      with:
-        payload: ${{ env.RESULT }}
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      # Start a Slack workflow using a webhook trigger
+      # https://github.com/slackapi/slack-github-action
+      - name: Prepare release notes
+        id: prepare_release_notes
+        run: |
+          RELEASE_BODY="${{ github.event.release.body }}"
+          RESULT=$(echo "$RELEASE_BODY" | grep -oP 'DEV-\d{4,5}:.*' | sed ':a;N;$!ba;s/\n/ \\n /g')
+          echo "RESULT=$RESULT" >> $GITHUB_ENV
+      - name: Send custom JSON data to Slack
+        id: slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+            "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                }
+              }
+            ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
