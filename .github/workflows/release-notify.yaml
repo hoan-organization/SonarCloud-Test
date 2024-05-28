@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Check out theis repo
+      # Check out this repo
       - uses: actions/checkout@v4
 
       - name: list files
@@ -25,7 +25,7 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          payload: >
+          payload: |
             {
                 "text": "A new release has been published",
                 "blocks": [
@@ -39,5 +39,5 @@ jobs:
                 ]
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
