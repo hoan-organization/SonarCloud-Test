@@ -10,34 +10,35 @@ jobs:
       # Check out this repo
       - uses: actions/checkout@v4
 
-      - name: list files
-        run: echo ${{ github.event.release }}
+      # Save release body to a file
+      - name: Save release body to file
+        run: echo "${{ github.event.release.body }}" > release_body.txt
 
-      # Start a Slack workflow using a webhook trigger
-      # https://github.com/slackapi/slack-github-action
-      - name: Prepare release notes
-        id: prepare_release_notes
+      # Process release body to display on one line
+      - name: Process release body
         run: |
-          RELEASE_BODY="${{ github.event.release.body }}"
-          RESULT=$(echo "$RELEASE_BODY" | grep '^\* DEV-' | sed 's/^\* //' | tr '\n' ' ' | sed ':a;N;$!ba;s/\n/\\n /g' | sed 's/ $//')
-          echo "RESULT=$RESULT" >> $GITHUB_ENV
+          sed -i ':a;N;$!ba;s/\n/\\n /g' release_body.txt
+          sed -i 's/ $//' release_body.txt
 
-      - name: Debug Result
-        run: echo $RESULT
+      # Read processed release body from file
+      - name: Read processed release body
+        id: read_release_body
+        run: echo "::set-output name=RELEASE_BODY::$(cat release_body.txt)"
 
+      # Send custom JSON data to Slack
       - name: Send custom JSON data to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
         with:
           payload: >
             {
-                "text": "A new release has been published",
+                "text": "A new release has been published: ${{ steps.read_release_body.outputs.RELEASE_BODY }}",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "A new release has been published: \n ${{ env.RESULT }}"
+                            "text": "A new release has been published: ${{ steps.read_release_body.outputs.RELEASE_BODY }}"
                         }
                     }
                 ]
