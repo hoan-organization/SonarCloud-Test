@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Check out theis repo
+      # Check out this repo
       - uses: actions/checkout@v4
 
       - name: list files
@@ -19,8 +19,12 @@ jobs:
         id: prepare_release_notes
         run: |
           RELEASE_BODY="${{ github.event.release.body }}"
-          RESULT=$(echo "$RELEASE_BODY" | sed -n 's/\(\* DEV-[0-9]\{4\}: [^*]*\).*/\1/p')
+          RESULT=$(echo "$RELEASE_BODY" | sed -n 's/\(\* DEV-[0-9]\{4\}: [^*]*\).*/\1/p' | tr '\n' ' ')
           echo "RESULT=$RESULT" >> $GITHUB_ENV
+
+      - name: Debug Result
+        run: echo $RESULT
+
       - name: Send custom JSON data to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.26.0
