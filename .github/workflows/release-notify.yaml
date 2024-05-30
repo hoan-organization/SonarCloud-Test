@@ -14,17 +14,15 @@ jobs:
       - name: Save release body to file
         run: echo "${{ github.event.release.body }}" > release_body.txt
 
-      # Process release body to display on one line
-      - name: Process release body
+      - name: Process Release Body
         run: |
-          sed 's/## What'"'"'s Changed//g' release_body.txt  # Add '*' to the beginning of each line
-          grep -o -P 'DEV-\d{4,5}:.*' release_body.txt  # Replace newline with '\n ' to merge lines
-          sed -i ':a;N;$!ba;s/\n/\\n /g' release_body.txt  # Replace newline with '\n ' to merge lines
+          grep -o -P '\* DEV-\d{4,5}:.*' release_body.txt > processed_release_body.txt
+          sed -i ':a;N;$!ba;s/\n/\\n /g' processed_release_body.txt
 
       # Read processed release body from file
-      - name: Read processed release body
+      - name: Read Processed Release Body
         id: read_release_body
-        run: echo "::set-output name=RELEASE_BODY::$(cat release_body.txt)"
+        run: echo "::set-output name=RELEASE_BODY::$(cat processed_release_body.txt)"
 
       # Send custom JSON data to Slack
       - name: Send custom JSON data to Slack
