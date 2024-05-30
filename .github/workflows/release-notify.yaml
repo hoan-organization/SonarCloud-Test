@@ -10,6 +10,9 @@ jobs:
       # Check out this repo
       - uses: actions/checkout@v4
 
+      - name: Save release body to file
+        run: echo "${{ github.event.release.body }}"
+
       # Save release body to a file
       - name: Save release body to file
         run: echo "${{ github.event.release.body }}" > release_body.txt
@@ -18,7 +21,7 @@ jobs:
         run: |
           grep -o -P '\* DEV-\d{4,5}:.*' release_body.txt > processed_release_body.txt
           sed -i ':a;N;$!ba;s/\n/\\n /g' processed_release_body.txt
-          tr -d '\n' < processed_release_body.txt > single_line_release_body.txt
+          tr '\n' ' ' < processed_release_body.txt > single_line_release_body.txt
 
       # Read processed release body from file
       - name: Read Processed Release Body
