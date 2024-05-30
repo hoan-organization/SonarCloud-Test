@@ -20,7 +20,7 @@ jobs:
       - name: Process Release Body
         run: |
           grep -o -P '\* DEV-\d{4,5}:.*' release_body.txt > processed_release_body.txt
-          sed -i ':a;N;$!ba;s/\n/\\n/g' processed_release_body.txt  # Escaping newlines for JSON
+          sed ':a;N;$!ba;s/\n/\\n/g' processed_release_body.txt  # Escaping newlines for JSON
           tr '\n' ' ' < processed_release_body.txt > single_line_release_body.txt
           sed 's/.$//' single_line_release_body.txt > release_body_2.txt
       # Read processed release body from file
