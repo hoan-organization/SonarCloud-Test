@@ -25,7 +25,7 @@ jobs:
           sed 's/.$//' single_line_release_body.txt > release_body_2.txt
       # Read processed release body from file
       - name: Read Processed Release Body
-        run: echo "RELEASE_BODY=$(cat release_body_2.txt)" >> $GITHUB_ENV
+        run: echo "RELEASE_BODY=$(echo release_body_2.txt)" >> $GITHUB_ENV
 
       # Send custom JSON data to Slack
       - name: Send custom JSON data to Slack
