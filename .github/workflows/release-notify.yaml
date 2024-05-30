@@ -17,9 +17,9 @@ jobs:
       # Process release body to display on one line
       - name: Process release body
         run: |
-          sed -i 's/^/* /' release_body.txt  # Add '*' to the beginning of each line
+          sed 's/## What'"'"'s Changed//g' release_body.txt  # Add '*' to the beginning of each line
+          grep -o -P 'DEV-\d{4,5}:.*' release_body.txt  # Replace newline with '\n ' to merge lines
           sed -i ':a;N;$!ba;s/\n/\\n /g' release_body.txt  # Replace newline with '\n ' to merge lines
-          sed -i 's/\\n $//' release_body.txt  # Remove trailing '\n ' from the end of the file
 
       # Read processed release body from file
       - name: Read processed release body
