@@ -21,8 +21,7 @@ jobs:
 
       # Read processed release body from file
       - name: Read Processed Release Body
-        id: read_release_body
-        run: echo "::set-output name=RELEASE_BODY::$(cat processed_release_body.txt)"
+        run: echo "RELEASE_BODY=$(cat processed_release_body.txt)" >> $GITHUB_ENV
 
       # Send custom JSON data to Slack
       - name: Send custom JSON data to Slack
@@ -31,13 +30,13 @@ jobs:
         with:
           payload: >
             {
-                "text": "A new release has been published: ${{ steps.read_release_body.outputs.RELEASE_BODY }}",
+                "text": "A new release has been published: \n ${{ env.RELEASE_BODY }}",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "A new release has been published: ${{ steps.read_release_body.outputs.RELEASE_BODY }}"
+                            "text": "A new release has been published: \n ${{ env.RELEASE_BODY }}"
                         }
                     }
                 ]
