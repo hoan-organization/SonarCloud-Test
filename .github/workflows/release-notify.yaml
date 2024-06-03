@@ -11,14 +11,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Save release body to file
-        run: echo "${{ github.event.release.body }}" > release_body.txt
+        run: echo "${{ github.event.release.body }}" > input.txt
 
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
       - name: Prepare release notes
         id: prepare_release_notes
         run: |
-          sed -n '/^\*/s/^[ \t]*//p' release_body.txt | tr '\n' ' ' | sed 's/ \* /\n\* /g'
           awk '/\* DEV/{print substr($0, 3)}' input.txt | awk '{printf "%s\\n ", $0}' > release_body.txt
 
       - name: Read Processed Release Body
