@@ -18,7 +18,7 @@ jobs:
       - name: Prepare release notes
         id: prepare_release_notes
         run: |
-          grep '^*' input.txt > release_body.txt
+          grep -o -P '\* DEV-\d{4,5}:.*' input.txt > release_body.txt
 
       - name: Read Processed Release Body
         run: |
