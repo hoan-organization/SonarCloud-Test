@@ -22,7 +22,7 @@ jobs:
 
       - name: Read Processed Release Body
         run: |
-          RELEASE_BODY=$(cat release_body.txt | jq -sR '.' | sed 's/\\n/\\\\n/g')
+          RELEASE_BODY=$(cat release_body.txt | jq -Rs . | sed 's/\\r\\n/\\\\n/g' | sed 's/\\n/\\\\n/g')
           echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
 
       - name: Send custom JSON data to Slack
