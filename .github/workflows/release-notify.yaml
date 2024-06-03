@@ -18,7 +18,7 @@ jobs:
       - name: Prepare release notes
         id: prepare_release_notes
         run: |
-          awk '/\* DEV/{print substr($0, 3)}' input.txt | awk '{printf "%s\\n ", $0}' > release_body.txt
+          awk '/\* DEV/{print substr($0, 3)}' input.txt | > release_body.txt
 
       - name: Read Processed Release Body
         run: |
