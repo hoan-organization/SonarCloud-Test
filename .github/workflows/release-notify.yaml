@@ -7,23 +7,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Check out this repo
+      # Check out theis repo
       - uses: actions/checkout@v4
 
-      - name: list files
-        run: echo ${{ github.event.release }}
+      - name: Save release body to file
+        run: echo "${{ github.event.release.body }}" > release_body.txt
 
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
       - name: Prepare release notes
         id: prepare_release_notes
         run: |
-          RELEASE_BODY="${{ github.event.release.body }}"
-          RESULT=$(echo "$RELEASE_BODY" | grep '^\* DEV-')
-          echo "RESULT=$RESULT" >> $GITHUB_ENV
+          awk '/^\*/ {gsub(/^[ \t]+/, "", $0); printf "%s \\n ", $0}' release_body.txt
 
-      - name: Debug Result
-        run: echo $RESULT
+      - name: Read Processed Release Body
+        run: echo "RELEASE_BODY=$(cat release_body_2.txt)" >> $GITHUB_ENV
 
       - name: Send custom JSON data to Slack
         id: slack
@@ -37,7 +35,7 @@ jobs:
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "A new release has been published: \n ${{ env.RESULT }}"
+                            "text": "A new release has been published: \n ${{ env.RELEASE_BODY }}"
                         }
                     }
                 ]
