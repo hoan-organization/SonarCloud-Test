@@ -19,8 +19,7 @@ jobs:
         id: prepare_release_notes
         run: |
           RELEASE_BODY="${{ github.event.release.body }}"
-          RESULT=$(echo "$RELEASE_BODY" | grep '^\* DEV-' | sed 's/^\* //' | tr '\n' ' ' | sed ':a;N;$!ba;s/\n/\\n /g' | sed 's/ $//')
-          grep pattern $RESULT | awk '{print}' ORS='" '
+          RESULT=$(echo "$RELEASE_BODY" | grep '^\* DEV-')
           echo "RESULT=$RESULT" >> $GITHUB_ENV
 
       - name: Debug Result
