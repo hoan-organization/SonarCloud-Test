@@ -19,6 +19,7 @@ jobs:
         id: prepare_release_notes
         run: |
           sed -n '/^\*/s/^[ \t]*//p' release_body.txt | tr '\n' ' ' | sed 's/ \* /\n\* /g'
+          awk '/\* DEV/{print substr($0, 3)}' input.txt | awk '{printf "%s\\n ", $0}' > release_body.txt
 
       - name: Read Processed Release Body
         run: echo "RELEASE_BODY=$(cat release_body.txt)" >> $GITHUB_ENV
