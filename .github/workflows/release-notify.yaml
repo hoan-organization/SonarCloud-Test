@@ -21,7 +21,7 @@ jobs:
           awk '/^\*/ {gsub(/^[ \t]+/, "", $0); printf "%s \\n ", $0}' release_body.txt
 
       - name: Read Processed Release Body
-        run: echo "RELEASE_BODY=$(cat release_body_2.txt)" >> $GITHUB_ENV
+        run: echo "RELEASE_BODY=$(cat release_body.txt)" >> $GITHUB_ENV
 
       - name: Send custom JSON data to Slack
         id: slack
