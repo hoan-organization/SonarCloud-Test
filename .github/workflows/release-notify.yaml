@@ -31,13 +31,13 @@ jobs:
         with:
           payload: >
             {
-                "text": "A new release has been published",
+                "text": "A new release has been published, which includes the following changes",
                 "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "A new release has been published: \n ${{ env.RELEASE_BODY }}"
+                            "text": "A new release has been published, which includes the following changes: \n ${{ env.RELEASE_BODY }}"
                         }
                     }
                 ]
