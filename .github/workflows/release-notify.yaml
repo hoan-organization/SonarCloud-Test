@@ -12,6 +12,6 @@ jobs:
         uses: exuanbo/actions-deploy-gist@v1
         with:
           token: ${{ secrets.TOKEN }}
-          gist_id: 37cfb6eb9e471dc361b385f309c5a022
+          gist_id: 3ff882c673b4069ff2e4370b4d0d9310
           file_path: openapi/test.yaml
           file_type: yaml
