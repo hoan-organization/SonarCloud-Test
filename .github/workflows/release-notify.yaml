@@ -1,47 +1,17 @@
-name: Slack Incoming Webhooks
+name: Public to GitHub Gist
 on:
-  release:
-    types: [published]
+  push:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       # Check out theis repo
-      - uses: actions/checkout@v4
-
-      - name: Save release body to file
-        run: echo "${{ github.event.release.body }}" > input.txt
-
-      # Start a Slack workflow using a webhook trigger
-      # https://github.com/slackapi/slack-github-action
-      - name: Prepare release notes
-        id: prepare_release_notes
-        run: |
-          grep -o -P '\* DEV-\d{4,5}:.*' input.txt > release_body.txt
-
-      - name: Read Processed Release Body
-        run: |
-          RELEASE_BODY=$(cat release_body.txt | jq -Rs . | tr -d '"' | tr -d '\n')
-          echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
-
-      - name: Send custom JSON data to Slack
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
+      - uses: actions/checkout@v4      
+      - name: Deploy
+        uses: exuanbo/actions-deploy-gist@v1
         with:
-          payload: >
-            {
-                "text": "A new release has been published, which includes the following changes",
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "A new release has been published, which includes the following changes: \n ${{ env.RELEASE_BODY }}"
-                        }
-                    }
-                ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          token: ${{ secrets.TOKEN }}
+          gist_id: 37cfb6eb9e471dc361b385f309c5a022
+          file_path: openapi/test.yaml
+          file_type: yaml
