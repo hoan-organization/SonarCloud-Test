@@ -8,13 +8,13 @@ jobs:
     steps:
       # Check out theis repo
       - uses: actions/checkout@v4      
-      - run: gh gist list
-        env:
-          GH_TOKEN: ${{ secrets.TOKEN }}
-      # - name: Deploy
-      #   uses: exuanbo/actions-deploy-gist@v1
-      #   with:
-      #     token: ${{ secrets.TOKEN }}
-      #     gist_id: 3ff882c673b4069ff2e4370b4d0d9310
-      #     file_path: openapi/test.yaml
-      #     file_type: yaml
+      # - run: gh gist list
+      #   env:
+      #     GH_TOKEN: ${{ secrets.TOKEN }}
+      - name: Deploy
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          gist_id: 3ff882c673b4069ff2e4370b4d0d9310
+          file_path: openapi/test.yaml
+          file_type: yaml
