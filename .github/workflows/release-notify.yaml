@@ -8,7 +8,7 @@ jobs:
     steps:
       # Check out theis repo
       - uses: actions/checkout@v4      
-      - run: gh gist edit https://gist.githubusercontent.com/TranHuyHoan10012001/3ff882c673b4069ff2e4370b4d0d9310/raw/9473a859a28565c1366e29e58808a08736a09f43/test.yaml -f openapi/test.yaml
+      - run: gh gist list
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
       # - name: Deploy
