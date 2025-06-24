@@ -2,55 +2,43 @@ changelog:
   exclude:
     labels:
       - ignore-for-release
-
   categories:
-    - title: '✨ Features'
+    - title: "🚀 Features"
       labels:
         - enhancement
-
-    - title: '🐛 Bug Fixes'
+    - title: "🐛 Bug Fixes"
       labels:
         - bug
-
-    - title: '🛠 Database Migrations'
+    - title: "🔨 Database Migrations"
       labels:
         - db-migration
-
-    - title: '🧱 Retiling'
+    - title: "🔁 Retiling"
       labels:
         - retiling
-
-    - title: '🧹 Maintenance'
+    - title: "🧹 Maintenance"
       labels:
         - maintenance
         - refactor
         - dependencies
-
-    - title: '🧪 Tests'
+    - title: "🧪 Tests"
       labels:
         - test
-
-    - title: '📚 Documentation'
+    - title: "📚 Documentation"
       labels:
         - documentation
-
-    - title: '🛡 Security'
+    - title: "🔒 Security"
       labels:
         - security
-
-    - title: '🚧 Work In Progress'
+    - title: "🚧 Work In Progress"
       labels:
         - wip
         - subtask
-
-    - title: '⚠️ Deprecations'
+    - title: "🚨 Deprecations"
       labels:
         - deprecation
-
-    - title: '🔥 Removals'
+    - title: "🔥 Removals"
       labels:
         - removal
-
-    - title: 'Other'
+    - title: "🔧 Other"
       labels:
-        - '*'
+        - "*"
