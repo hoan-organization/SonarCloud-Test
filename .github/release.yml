@@ -2,43 +2,57 @@ changelog:
   exclude:
     labels:
       - ignore-for-release
+      - duplicate
+      - help wanted
+      - invalid
+      - good first issue
+      - question
+      - release
+      - wontfix
+      - parent
+
   categories:
     - title: "🚀 Features"
       labels:
         - enhancement
+        - PBI
+        - SBI
+
     - title: "🐛 Bug Fixes"
       labels:
         - bug
+
     - title: "🔨 Database Migrations"
       labels:
-        - db-migration
-    - title: "🔁 Retiling"
+        - preview-migrate
+
+    - title: "🐳 Docker Updates"
       labels:
-        - retiling
+        - docker
+
+    - title: "⚙️ GitHub Actions"
+      labels:
+        - github_actions
+
     - title: "🧹 Maintenance"
       labels:
         - maintenance
         - refactor
         - dependencies
-    - title: "🧪 Tests"
-      labels:
-        - test
+        - javascript
+
     - title: "📚 Documentation"
       labels:
         - documentation
+
     - title: "🔒 Security"
       labels:
         - security
-    - title: "🚧 Work In Progress"
+
+    - title: "📐 Specifications"
       labels:
-        - wip
-        - subtask
-    - title: "🚨 Deprecations"
-      labels:
-        - deprecation
-    - title: "🔥 Removals"
-      labels:
-        - removal
+        - specifications
+
     - title: "🔧 Other"
       labels:
         - "*"
