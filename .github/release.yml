@@ -2,6 +2,8 @@ changelog:
   exclude:
     labels:
       - ignore-for-release
+      - duplicate
+      - invalid
 
   categories:
     - title: '🚀 Features'
