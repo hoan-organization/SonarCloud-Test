@@ -1,0 +1,27 @@
+version: 2
+mergeable:
+  # PR title check
+  - when: pull_request.*, pull_request_review.*
+    filter:
+      - do: payload
+        pull_request:
+          draft:
+            boolean:
+              match: false
+    validate:
+      - do: title
+        must_exclude:
+          regex: ^\[WIP\]
+        must_include:
+          regex: ^(feat|fix|perf)\(((DEV|SRE|SREC|AUTH)-[\d]{1,6})\)\:.+$
+          message: "Add JIRA issue key"
+    pass:
+      - do: checks
+        status: "success"
+        payload:
+          title: "PR title is valid 👍"
+    fail:
+      - do: checks
+        status: "failure"
+        payload:
+          title: "Oops! PR title is not valid 💩"
